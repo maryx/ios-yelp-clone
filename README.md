@@ -2,7 +2,7 @@
 
 This is a Yelp search app using the Yelp API
 
-Time spent: 6
+Time spent: 11 hrs
 
 ### Features
 
@@ -17,7 +17,7 @@ Time spent: 6
    - [x] Category filter
    - [x] Deals filter
    - [x] Distance filter
-   - [ ] Sort By filter
+   - [x] Sort By filter
    - [x] The filters table should be organized into sections as in the mock.
    - [x] You can use the default UISwitch for on/off states. Optional: implement a custom switch
    - [x] Clicking on the "Search" button should dismiss the filters page and trigger the search w/ the new filter settings.
@@ -35,4 +35,8 @@ Time spent: 6
 
 ### Walkthrough
 
-![Video Walkthrough](...)
+![Video Walkthrough](yelp-clone.gif)
+This shows all the features except for one. Xcode ran out of memory or something, so here's the rest of the gif:
+
+![Video Walkthrough](yelp-clone2.gif)
+This shows the sort by Best/Distance/Rating
