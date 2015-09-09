@@ -8,11 +8,17 @@
 
 import UIKit
 
+@objc protocol FiltersViewControllerDelegate {
+    optional func filtersViewController(filtersViewController: FiltersViewController,
+        didUpdateFilters filters: [String: AnyObject]) // firing the event
+}
 class FiltersViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, SwitchCellDelegate {
 
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchButton: UIBarButtonItem!
     @IBOutlet weak var cancelButton: UIBarButtonItem!
+
+    weak var delegate: FiltersViewControllerDelegate?
 
     var categories: [[String:String]]!
     var switchStates = [Int:Bool]()
@@ -36,7 +42,20 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
 
     @IBAction func onSearchButton(sender: AnyObject) {
         dismissViewControllerAnimated(true, completion: nil)
+        var filters = [String: AnyObject]()
+        var selectedCategories = [String]()
+        for (row, selected) in switchStates {
+            if (selected) {
+                selectedCategories.append(categories[row]["code"]!)
+            }
+        }
+        if (selectedCategories.count > 0) {
+            filters["categories"] = selectedCategories
+        }
+        delegate?.filtersViewController?(self, didUpdateFilters: filters)
+
     }
+    
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return categories.count

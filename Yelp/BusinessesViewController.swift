@@ -8,9 +8,10 @@
 
 import UIKit
 
-class BusinessesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
+class BusinessesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, FiltersViewControllerDelegate {
 
     var businesses: [Business]!
+    var searchTerm: String!
     
     @IBOutlet weak var tableView: UITableView!
     var searchBar: UISearchBar!
@@ -26,13 +27,20 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
         searchBar.sizeToFit()
         navigationItem.titleView = searchBar
         searchBar.delegate = self // otherwise those funcs wont work
-        getData("cheese")
+        searchTerm = "cheese"
+        getData("hello", categories: [], deals: false)
     }
 
-    func getData(searchTerm: String) {
-        Business.searchWithTerm(searchTerm, completion: { (businesses: [Business]!, error: NSError!) -> Void in
-            self.businesses = businesses
-            self.tableView.reloadData()
+    func getData(sort: String, categories: [String], deals: Bool) {
+        Business.searchWithTerm(searchTerm,
+            sort: nil,
+            categories: categories,
+            deals: nil,
+            completion: {
+                (stuff: [Business]!, error: NSError!) -> Void in
+                self.businesses = stuff
+                self.tableView.reloadData()
+                self.searchBar.text = self.searchTerm
         })
     }
 
@@ -42,7 +50,8 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
     }
     
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
-        getData(searchText)
+        searchTerm = searchText
+        getData("hello", categories: [], deals: false)
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -62,14 +71,17 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
         return cell
     }
     
-    /*
-    // MARK: - Navigation
-
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
+        let navigationController = segue.destinationViewController as! UINavigationController
+        let filtersViewController = navigationController.topViewController as! FiltersViewController
+        
+        filtersViewController.delegate = self
     }
-    */
-
+    
+    // You get this because you delegated it at the top
+    func filtersViewController(filtersViewController: FiltersViewController, didUpdateFilters filters: [String : AnyObject]) {
+        var categories = filters["categories"] as? [String]
+        getData("hello", categories: categories!, deals: false)
+    }
 }
