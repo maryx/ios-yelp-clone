@@ -12,7 +12,7 @@ import UIKit
     optional func filtersViewController(filtersViewController: FiltersViewController,
         didUpdateFilters filters: [String: AnyObject]) // firing the event
 }
-class FiltersViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, SwitchCellDelegate {
+class FiltersViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, SwitchCellDelegate, ChoiceCellDelegate {
 
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var searchButton: UIBarButtonItem!
@@ -21,6 +21,8 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
     weak var delegate: FiltersViewControllerDelegate?
 
     var categories: [[String:String]]!
+    var offeringDeal = Bool()
+    var choiceStates = [Int:Int]()
     var switchStates = [Int:Bool]()
 
     override func viewDidLoad() {
@@ -52,24 +54,73 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
         if (selectedCategories.count > 0) {
             filters["categories"] = selectedCategories
         }
+        filters["deals"] = offeringDeal
+        filters["sort"] = choiceStates[0]
+        filters["distance"] = choiceStates[1]
+        
         delegate?.filtersViewController?(self, didUpdateFilters: filters)
 
     }
-    
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return categories.count
+        switch (section) {
+        case 0: return 1
+        case 1: return 1
+        case 2: return 1
+        case 3: return categories.count
+        default: return 1
+        }
     }
     
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+        return 4
+    }
+
     // Row display. Implementers should *always* try to reuse cells by setting each cell's reuseIdentifier and querying for available reusable cells with dequeueReusableCellWithIdentifier:
     // Cell gets various attributes set automatically based on table (separators) and data source (accessory views, editing controls)
-    
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("SwitchCell", forIndexPath: indexPath) as! SwitchCell
-        cell.switchLabel.text = categories[indexPath.row]["name"]
-        cell.delegate = self
-        cell.toggleSwitch.on = switchStates[indexPath.row] ?? false
-        return cell
+        switch (indexPath.section) {
+        case 0:
+            let cell = tableView.dequeueReusableCellWithIdentifier("SwitchCell", forIndexPath: indexPath) as! SwitchCell
+            cell.switchLabel.text = "Offerin' a deal"
+            cell.delegate = self
+            cell.toggleSwitch.on = offeringDeal
+            return cell
+        case 1:
+            let cell = tableView.dequeueReusableCellWithIdentifier("ChoiceCell", forIndexPath: indexPath) as! ChoiceCell
+            cell.choiceSegmentedControl.setTitle("1 mile", forSegmentAtIndex: 0)
+            cell.choiceSegmentedControl.setTitle("2 miles", forSegmentAtIndex: 1)
+            cell.choiceSegmentedControl.setTitle("3 miles", forSegmentAtIndex: 2)
+            cell.choiceSegmentedControl.setTitle("5 miles", forSegmentAtIndex: 3)
+            cell.choiceSegmentedControl.setTitle("10 miles", forSegmentAtIndex: 4)
+            cell.delegate = self
+            return cell
+        case 2:
+            let cell = tableView.dequeueReusableCellWithIdentifier("ChoiceCell", forIndexPath: indexPath) as! ChoiceCell
+            cell.choiceSegmentedControl.removeSegmentAtIndex(4, animated: false)
+            cell.choiceSegmentedControl.removeSegmentAtIndex(3, animated: false)
+            cell.choiceSegmentedControl.setTitle("Best Match", forSegmentAtIndex: 0)
+            cell.choiceSegmentedControl.setTitle("Distance", forSegmentAtIndex: 1)
+            cell.choiceSegmentedControl.setTitle("Rating", forSegmentAtIndex: 2)
+            cell.delegate = self
+            return cell
+        default:
+            let cell = tableView.dequeueReusableCellWithIdentifier("SwitchCell", forIndexPath: indexPath) as! SwitchCell
+            cell.switchLabel.text = categories[indexPath.row]["name"]
+            cell.delegate = self
+            cell.toggleSwitch.on = switchStates[indexPath.row] ?? false
+            return cell
+        }
+    }
+
+    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        switch (section) {
+            case 0: return nil
+            case 1: return "How LAZY R U (distance)"
+            case 2: return "Sort By..."
+            case 3: return "Ahoy ye Categories!"
+            default: return "Filter"
+        }
     }
 
     /*
@@ -84,7 +135,16 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
 
     func switchCell(switchCell: SwitchCell, didChangeValue value: Bool) {
         let indexPath = tableView.indexPathForCell(switchCell)!
-        switchStates[indexPath.row] = value
+        if (indexPath.section == 0) {
+            offeringDeal = value
+        } else {
+            switchStates[indexPath.row] = value
+        }
+    }
+
+    func choiceCell(choiceCell: ChoiceCell, didChangeValue value: Int) {
+        let indexPath = tableView.indexPathForCell(choiceCell)!
+        choiceStates[indexPath.row] = value
     }
 
     func yelpCategories() -> [[String:String]] {

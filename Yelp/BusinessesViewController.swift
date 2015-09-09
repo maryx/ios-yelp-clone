@@ -28,17 +28,28 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
         navigationItem.titleView = searchBar
         searchBar.delegate = self // otherwise those funcs wont work
         searchTerm = "cheese"
-        getData("hello", categories: [], deals: false)
+        getData(nil, categories: [], deals: false)
     }
 
-    func getData(sort: String, categories: [String], deals: Bool) {
-        Business.searchWithTerm(searchTerm,
-            sort: nil,
+    func getData(sort: YelpSortMode?, categories: [String]?, deals: Bool? /*, distance: Int */) {
+        Business.searchWithTerm(searchTerm ?? "",
+            sort: sort,
             categories: categories,
-            deals: nil,
+            deals: deals,
             completion: {
-                (stuff: [Business]!, error: NSError!) -> Void in
-                self.businesses = stuff
+                (all: [Business]!, error: NSError!) -> Void in
+
+                // filter by distance if you want
+/*                if (distance > 0) {
+                    var distanceBusinesses = [Business]()
+                    for business in all {
+                        var stringDist = (business.distance! as NSString).substringToIndex(4)
+                        var intDist = stringDist.toInt()
+                    }
+                    self.businesses = distanceBusinesses
+                }
+*/
+                self.businesses = all
                 self.tableView.reloadData()
                 self.searchBar.text = self.searchTerm
         })
@@ -51,7 +62,7 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
     
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
         searchTerm = searchText
-        getData("hello", categories: [], deals: false)
+        getData(nil, categories: [], deals: false)
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -64,7 +75,7 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
     
     // Row display. Implementers should *always* try to reuse cells by setting each cell's reuseIdentifier and querying for available reusable cells with dequeueReusableCellWithIdentifier:
     // Cell gets various attributes set automatically based on table (separators) and data source (accessory views, editing controls)
-    
+
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("BusinessCell", forIndexPath: indexPath) as! BusinessCell // This returns back an AnyObject so we have to cast it
         cell.business = businesses[indexPath.row]
@@ -82,6 +93,8 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
     // You get this because you delegated it at the top
     func filtersViewController(filtersViewController: FiltersViewController, didUpdateFilters filters: [String : AnyObject]) {
         var categories = filters["categories"] as? [String]
-        getData("hello", categories: categories!, deals: false)
+        var deals = filters["deal"] as? Bool
+        var sort = filters["sort"] as? YelpSortMode
+        getData(sort, categories: categories, deals: deals)
     }
 }

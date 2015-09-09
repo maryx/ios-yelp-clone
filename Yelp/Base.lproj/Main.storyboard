@@ -49,8 +49,8 @@
                                                     <color key="textColor" red="0.74083036099999999" green="0.1186543187" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Type" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Trn-YH-j7r">
-                                                    <rect key="frame" x="81" y="51" width="30.5" height="17"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Type" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Trn-YH-j7r">
+                                                    <rect key="frame" x="81" y="51" width="223" height="17"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" red="0.74083036099999999" green="0.1186543187" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -75,7 +75,7 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$$$$$" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g00-ZX-6AA">
-                                                    <rect key="frame" x="8" y="77" width="38" height="16"/>
+                                                    <rect key="frame" x="8" y="77" width="37.5" height="16"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <color key="textColor" red="0.74083036099999999" green="0.1186543187" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -155,24 +155,24 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="69" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="DFv-dG-4JZ">
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="38" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="DFv-dG-4JZ">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SwitchCell" rowHeight="69" id="WdL-Zg-9da" customClass="SwitchCell" customModule="Yelp" customModuleProvider="target">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="SwitchCell" rowHeight="38" id="WdL-Zg-9da" customClass="SwitchCell" customModule="Yelp" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="WdL-Zg-9da" id="aQ7-TS-6Ln">
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VjU-vp-Jz5">
-                                                    <rect key="frame" x="14" y="24" width="42" height="20.5"/>
+                                                    <rect key="frame" x="14" y="8" width="42" height="20.5"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="1" green="0.10610913850000001" blue="0.45644865200000001" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mon-Ng-bav">
-                                                    <rect key="frame" x="257" y="19" width="51" height="31"/>
+                                                    <rect key="frame" x="257" y="3" width="51" height="31"/>
                                                     <color key="onTintColor" red="1" green="0.064125705310000003" blue="0.8229041238" alpha="1" colorSpace="calibratedRGB"/>
                                                     <color key="thumbTintColor" red="0.96862745100000003" green="0.96862745100000003" blue="0.96862745100000003" alpha="1" colorSpace="calibratedRGB"/>
                                                 </switch>
@@ -187,6 +187,37 @@
                                         <connections>
                                             <outlet property="switchLabel" destination="VjU-vp-Jz5" id="0wI-5g-wIN"/>
                                             <outlet property="toggleSwitch" destination="mon-Ng-bav" id="V4i-1R-DAN"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ChoiceCell" id="4mj-5e-OY5" customClass="ChoiceCell" customModule="Yelp" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="4mj-5e-OY5" id="dMP-vV-WJR">
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="jhW-VJ-Z5G">
+                                                    <rect key="frame" x="8" y="5" width="304" height="29"/>
+                                                    <segments>
+                                                        <segment title="1 mile"/>
+                                                        <segment title="2 miles"/>
+                                                        <segment title=""/>
+                                                        <segment title=""/>
+                                                        <segment title=""/>
+                                                    </segments>
+                                                    <color key="tintColor" red="1" green="0.10610913850000001" blue="0.45644865200000001" alpha="1" colorSpace="calibratedRGB"/>
+                                                </segmentedControl>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="centerX" secondItem="jhW-VJ-Z5G" secondAttribute="centerX" id="1wR-sb-jqx"/>
+                                                <constraint firstAttribute="bottom" secondItem="jhW-VJ-Z5G" secondAttribute="bottom" constant="5" id="8G2-Uy-eLk"/>
+                                                <constraint firstAttribute="trailing" secondItem="jhW-VJ-Z5G" secondAttribute="trailing" constant="8" id="CUP-RA-hwv"/>
+                                                <constraint firstAttribute="centerY" secondItem="jhW-VJ-Z5G" secondAttribute="centerY" id="NaP-w6-Ekf"/>
+                                                <constraint firstItem="jhW-VJ-Z5G" firstAttribute="leading" secondItem="dMP-vV-WJR" secondAttribute="leading" constant="8" id="uRp-qq-aTB"/>
+                                                <constraint firstItem="jhW-VJ-Z5G" firstAttribute="top" secondItem="dMP-vV-WJR" secondAttribute="top" constant="5" id="zsO-QK-OO1"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="choiceSegmentedControl" destination="jhW-VJ-Z5G" id="qMT-71-ncZ"/>
                                         </connections>
                                     </tableViewCell>
                                 </prototypes>
