@@ -9,7 +9,7 @@
 import UIKit
 
 @objc protocol ChoiceCellDelegate {
-    optional func choiceCell(choiceCell: ChoiceCell, newValue value: Int)
+    optional func choiceCell(choiceCell: ChoiceCell, didChangeValue value: Int)
 }
 class ChoiceCell: UITableViewCell {
     
@@ -27,7 +27,6 @@ class ChoiceCell: UITableViewCell {
     }
     
     func choseSegment() {
-        delegate?.choiceCell?(self, newValue: choiceSegmentedControl.selectedSegmentIndex)
-
+        delegate?.choiceCell?(self, didChangeValue: choiceSegmentedControl.selectedSegmentIndex)
     }
 }

@@ -22,7 +22,8 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
 
     var categories: [[String:String]]!
     var offeringDeal = Bool()
-    var choiceStates = [Int:Int]()
+    var distance = Double()
+//    var sortBy = YelpSortMode()
     var switchStates = [Int:Bool]()
 
     override func viewDidLoad() {
@@ -54,9 +55,10 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
         if (selectedCategories.count > 0) {
             filters["categories"] = selectedCategories
         }
+
         filters["deals"] = offeringDeal
-        filters["sort"] = choiceStates[0]
-        filters["distance"] = choiceStates[1]
+//        filters["sort"] = sortBy
+        filters["distance"] = distance
         
         delegate?.filtersViewController?(self, didUpdateFilters: filters)
 
@@ -88,11 +90,11 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
             return cell
         case 1:
             let cell = tableView.dequeueReusableCellWithIdentifier("ChoiceCell", forIndexPath: indexPath) as! ChoiceCell
-            cell.choiceSegmentedControl.setTitle("1 mile", forSegmentAtIndex: 0)
-            cell.choiceSegmentedControl.setTitle("2 miles", forSegmentAtIndex: 1)
-            cell.choiceSegmentedControl.setTitle("3 miles", forSegmentAtIndex: 2)
-            cell.choiceSegmentedControl.setTitle("5 miles", forSegmentAtIndex: 3)
-            cell.choiceSegmentedControl.setTitle("10 miles", forSegmentAtIndex: 4)
+            cell.choiceSegmentedControl.setTitle("0.25 mi", forSegmentAtIndex: 0)
+            cell.choiceSegmentedControl.setTitle("0.5 mi", forSegmentAtIndex: 1)
+            cell.choiceSegmentedControl.setTitle("1 mi", forSegmentAtIndex: 2)
+            cell.choiceSegmentedControl.setTitle("2 mi", forSegmentAtIndex: 3)
+            cell.choiceSegmentedControl.setTitle("5 mi", forSegmentAtIndex: 4)
             cell.delegate = self
             return cell
         case 2:
@@ -144,7 +146,28 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
 
     func choiceCell(choiceCell: ChoiceCell, didChangeValue value: Int) {
         let indexPath = tableView.indexPathForCell(choiceCell)!
-        choiceStates[indexPath.row] = value
+        if (indexPath.section == 1) {
+            distance = getDistance(value)
+        } else if (indexPath.section == 2) {
+//            sortBy = getSortMode(value)
+        }
+    }
+
+    func getSortMode(index: Int) -> YelpSortMode {
+        switch (index) {
+        case 0: return YelpSortMode.BestMatched
+        case 1: return YelpSortMode.Distance
+        default: return YelpSortMode.HighestRated
+        }
+    }
+    func getDistance(index: Int) -> Double {
+        switch (index) {
+        case 0: return 0.25
+        case 1: return 0.5
+        case 2: return 1
+        case 3: return 2
+        default: return 5
+        }
     }
 
     func yelpCategories() -> [[String:String]] {

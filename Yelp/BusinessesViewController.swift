@@ -28,10 +28,10 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
         navigationItem.titleView = searchBar
         searchBar.delegate = self // otherwise those funcs wont work
         searchTerm = "cheese"
-        getData(nil, categories: [], deals: false)
+        getData(nil, categories: [], deals: false, distance: 0.25)
     }
 
-    func getData(sort: YelpSortMode?, categories: [String]?, deals: Bool? /*, distance: Int */) {
+    func getData(sort: YelpSortMode?, categories: [String]?, deals: Bool?, distance: Double?) {
         Business.searchWithTerm(searchTerm ?? "",
             sort: sort,
             categories: categories,
@@ -39,17 +39,18 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
             completion: {
                 (all: [Business]!, error: NSError!) -> Void in
 
+                var distanceBusinesses = [Business]()
                 // filter by distance if you want
-/*                if (distance > 0) {
-                    var distanceBusinesses = [Business]()
+                if (distance > 0) {
                     for business in all {
                         var stringDist = (business.distance! as NSString).substringToIndex(4)
-                        var intDist = stringDist.toInt()
+                        var doubleDist = (stringDist as NSString).doubleValue
+                        if (doubleDist < distance) {
+                            distanceBusinesses.append(business)
+                        }
                     }
-                    self.businesses = distanceBusinesses
                 }
-*/
-                self.businesses = all
+                self.businesses = distanceBusinesses
                 self.tableView.reloadData()
                 self.searchBar.text = self.searchTerm
         })
@@ -62,7 +63,7 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
     
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
         searchTerm = searchText
-        getData(nil, categories: [], deals: false)
+        getData(nil, categories: [], deals: false, distance: 0.25)
     }
     
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -93,8 +94,9 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
     // You get this because you delegated it at the top
     func filtersViewController(filtersViewController: FiltersViewController, didUpdateFilters filters: [String : AnyObject]) {
         var categories = filters["categories"] as? [String]
-        var deals = filters["deal"] as? Bool
+        var deals = filters["deals"] as? Bool
         var sort = filters["sort"] as? YelpSortMode
-        getData(sort, categories: categories, deals: deals)
+        var distance = filters["distance"] as? Double
+        getData(sort, categories: categories, deals: deals, distance: distance)
     }
 }
