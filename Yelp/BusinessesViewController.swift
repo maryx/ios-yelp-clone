@@ -8,27 +8,31 @@
 
 import UIKit
 
-class BusinessesViewController: UIViewController,
-    UITableViewDataSource, UITableViewDelegate {
+class BusinessesViewController: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
 
     var businesses: [Business]!
     
     @IBOutlet weak var tableView: UITableView!
+    var searchBar: UISearchBar!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.delegate = self
         tableView.dataSource = self
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 120 // for scrollheight dimension
+        
+        searchBar = UISearchBar() // You have to put it here because it wont drag onto the nav part of the storyboard
+        searchBar.sizeToFit()
+        navigationItem.titleView = searchBar
+        searchBar.delegate = self // otherwise those funcs wont work
+        getData("cheese")
+    }
 
-        Business.searchWithTerm("Thai", completion: { (businesses: [Business]!, error: NSError!) -> Void in
+    func getData(searchTerm: String) {
+        Business.searchWithTerm(searchTerm, completion: { (businesses: [Business]!, error: NSError!) -> Void in
             self.businesses = businesses
             self.tableView.reloadData()
-
-            for business in businesses {
-                println(business.name!)
-                println(business.address!)
-            }
         })
     }
 
@@ -36,7 +40,11 @@ class BusinessesViewController: UIViewController,
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
     }
-
+    
+    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+        getData(searchText)
+    }
+    
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if (businesses != nil) {
             return businesses!.count

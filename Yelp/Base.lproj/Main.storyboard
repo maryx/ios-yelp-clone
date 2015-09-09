@@ -5,7 +5,7 @@
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
-        <!--Yelp Clone-->
+        <!--Businesses View Controller-->
         <scene sceneID="5L9-Uz-lNK">
             <objects>
                 <viewController id="2xI-yr-O5N" customClass="BusinessesViewController" customModule="Yelp" customModuleProvider="target" sceneMemberID="viewController">
@@ -126,7 +126,7 @@
                             <constraint firstItem="ecj-am-5Xp" firstAttribute="top" secondItem="XhR-oz-92f" secondAttribute="topMargin" id="z6W-Ql-7hL"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Yelp Clone" id="ICT-Mc-X36">
+                    <navigationItem key="navigationItem" id="ICT-Mc-X36">
                         <barButtonItem key="rightBarButtonItem" title="Filters" id="jwZ-29-9IF">
                             <color key="tintColor" red="1" green="0.064125705310000003" blue="0.8229041238" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
