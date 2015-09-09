@@ -31,9 +31,10 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
         getData(nil, categories: [], deals: false, distance: 0.25)
     }
 
-    func getData(sort: YelpSortMode?, categories: [String]?, deals: Bool?, distance: Double?) {
+    func getData(sort: Int?, categories: [String]?, deals: Bool?, distance: Double?) {
+        var actualSort = YelpSortMode.init(rawValue: sort ?? 0)
         Business.searchWithTerm(searchTerm ?? "",
-            sort: sort,
+            sort: actualSort,
             categories: categories,
             deals: deals,
             completion: {
@@ -95,7 +96,7 @@ class BusinessesViewController: UIViewController, UITableViewDataSource, UITable
     func filtersViewController(filtersViewController: FiltersViewController, didUpdateFilters filters: [String : AnyObject]) {
         var categories = filters["categories"] as? [String]
         var deals = filters["deals"] as? Bool
-        var sort = filters["sort"] as? YelpSortMode
+        var sort = filters["sort"] as? Int
         var distance = filters["distance"] as? Double
         getData(sort, categories: categories, deals: deals, distance: distance)
     }

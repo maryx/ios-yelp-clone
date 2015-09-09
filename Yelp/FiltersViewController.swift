@@ -23,7 +23,7 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
     var categories: [[String:String]]!
     var offeringDeal = Bool()
     var distance = Double()
-//    var sortBy = YelpSortMode()
+    var sortBy = Int()
     var switchStates = [Int:Bool]()
 
     override func viewDidLoad() {
@@ -57,7 +57,7 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
         }
 
         filters["deals"] = offeringDeal
-//        filters["sort"] = sortBy
+        filters["sort"] = sortBy
         filters["distance"] = distance
         
         delegate?.filtersViewController?(self, didUpdateFilters: filters)
@@ -149,15 +149,15 @@ class FiltersViewController: UIViewController, UITableViewDataSource, UITableVie
         if (indexPath.section == 1) {
             distance = getDistance(value)
         } else if (indexPath.section == 2) {
-//            sortBy = getSortMode(value)
+            sortBy = getSortMode(value)
         }
     }
 
-    func getSortMode(index: Int) -> YelpSortMode {
+    func getSortMode(index: Int) -> Int {
         switch (index) {
-        case 0: return YelpSortMode.BestMatched
-        case 1: return YelpSortMode.Distance
-        default: return YelpSortMode.HighestRated
+        case 0: return YelpSortMode.BestMatched.rawValue
+        case 1: return YelpSortMode.Distance.rawValue
+        default: return YelpSortMode.HighestRated.rawValue
         }
     }
     func getDistance(index: Int) -> Double {
